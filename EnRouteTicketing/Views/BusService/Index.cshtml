@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="jumbotron">
+    <h1> @ViewBag.ServiceName</h1> <small>Welcome to EnRoute </small>
+    <p><h4>You can view and modify your Services Here</h4> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>
+</div>
+<div>
+    <div class="row" style="background-color:pink;">
+        <div class="col-lg-1 col-md-3" style="margin-left:15px;">
+            @using (Ajax.BeginForm("LoadPartialView", "Terminal", new AjaxOptions { UpdateTargetId = "loader" }))
+            {
+                <button class="btn btn-success btn-md" type="submit">Add Terminal</button>
+
+
+            }
+        </div>
+        
+        <div class="col-lg-1 col-md-3"  style="margin-left:15px;">
+
+
+            @using (Ajax.BeginForm("LoadPartialView", "Bus", new AjaxOptions { UpdateTargetId = "loader" }))
+            {
+                <button class="btn btn-danger btn-md" type="submit">Add Bus</button>
+
+
+            }
+        </div>
+
+    </div>
+    
+   
+  
+    <div id="loader" class="margin-bottom-5">
+        @*@Html.Action("LoadPartialView", "Terminal")*@
+    </div>
+    
+
+    <div class="panel panel-default  col-md-6">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Terminals</div>
+
+        <!-- Table -->
+        <table class="table">
+            ...
+        </table>
+    </div>
+
+    <div class="panel panel-default  col-md-6">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Busses</div>
+
+        <!-- Table -->
+        <table class="table">
+            ...
+        </table>
+    </div>
+</div>
+
+@*@Html.Partial((string)ViewBag.myPartial)*@
+
+
+    <script type="text/javascript">
+
+
+   
+    </script>
+
+

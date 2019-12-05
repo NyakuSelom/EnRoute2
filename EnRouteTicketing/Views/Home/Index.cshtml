@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section head{
+    <style type="text/css">
+        body {
+            background-image: url('../../Content/images/bus.jpg');
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .myjumb {
+            opacity: 0.8 !important;
+        }
+
+        .ticketform {
+            background-color: mintcream;
+            opacity: 0.9;
+            min-height: 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .infocard {
+            background-color: lavender;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .myticketformbtn {
+            background-color:lightcoral;
+            color:aliceblue;
+        }
+    </style>
+}
+
+<div class="jumbotron myjumb">
+    <h1 style=" opacity:1;">Welcome to EnRoute</h1> <p><bold>Intercity Bus Ticketing</bold></p>
+    <p class="lead" style=" opacity:1; margin-bottom:-30px;"> <marquee behaviour="scroll" direction="left"><h4>Save Yourself the stress, Easy Ticket Purchases, Loads of Conviniences</h4></marquee></p>
+
+</div>
+
+<div class="row" style="min-height:150px;">
+    
+</div>
+
+    <div class="row ticketform">
+        <div class="col-lg-push-4 ">
+            <form class="form-inline" style="margin:15px">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Phone Number">
+                </div>
+                <div class="form-group">
+
+                    <input type="text" class="form-control" placeholder="Bus Station">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Destination">
+                </div>
+                <div class="form-group">
+                    <input type="datetime" class="form-control" placeholder="TravelDate">
+                </div>
+                <button type="submit" class="btn myticketformbtn">Search Ticket</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+<div class="row">
+    <div class=" ticketloader">
+
+    </div>
+</div>
+
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-4 infocard">
+        <h2>Buy and Manage Your tickets</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4 infocard">
+        <h2>Review Your Trip</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4 infocard">
+        <h2>Bus Service Companies</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
