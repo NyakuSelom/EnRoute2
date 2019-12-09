@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace EnrouteBusTicketing.Controllers
 {
@@ -24,9 +25,23 @@ namespace EnrouteBusTicketing.Controllers
         }
 
         // GET: Terminal
-        public ActionResult Index()
+        public ActionResult TerminalList()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = User.Identity.GetUserName();
+                var record = db.BusServices.FirstOrDefault(x => x.Email == email);
+                if (record != null)
+                {
+
+                    var terminals = db.Terminals.Include(t => t.BusService);
+                    terminals = terminals.Where(t => t.BusServiceID == record.BusServiceID);
+
+
+                    return PartialView("_terminallist", terminals.ToList());
+                }
+            }
+            return Content("No buses Added");
         }
 
         // GET: Terminal/Details/5

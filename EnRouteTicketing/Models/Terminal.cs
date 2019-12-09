@@ -69,10 +69,10 @@ namespace EnRouteTicketing.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public DateTime TravelDate { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm tt}")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:HH:mm:ss}")]
         [DataType(DataType.Time)]
         public DateTime DepartureTime { get; set; }
 

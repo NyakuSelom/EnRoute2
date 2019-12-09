@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EnRouteTicketing.Models.Bus>
+
+<table class="table">
+    <tr>
+        
+        
+        <th>
+            @Html.DisplayNameFor(model => model.LicenseNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Busmodel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoofSeats)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+      
+
+        <td>
+            @Html.DisplayFor(modelItem => item.LicenseNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Busmodel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoofSeats)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BusID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BusID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BusID })
+        </td>
+    </tr>
+}
+
+</table>

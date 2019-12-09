@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace EnRouteTicketing.Controllers
 {
@@ -29,9 +30,23 @@ namespace EnRouteTicketing.Controllers
             return PartialView("_addBus");
         }
         // GET: Bus
-        public ActionResult Index()
+        public ActionResult BusList()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {  
+                string email = User.Identity.GetUserName();
+                var record = db.BusServices.FirstOrDefault(x => x.Email == email);
+                if (record != null)
+                {
+
+                    var buses = db.Buses.Include(b => b.BusService);
+                    buses = buses.Where(b => b.BusServiceID == record.BusServiceID);
+                   
+
+                    return PartialView("_buslist", buses.ToList());
+                }
+            }
+            return Content("No buses Added");
         }
 
         // GET: Bus/Details/5

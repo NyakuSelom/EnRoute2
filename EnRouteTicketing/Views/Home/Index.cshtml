@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EnRouteTicketing.Models.Terminal
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -26,6 +28,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
+
         .infocard {
             background-color: lavender;
             border-radius: 8px;
@@ -33,8 +36,8 @@
         }
 
         .myticketformbtn {
-            background-color:lightcoral;
-            color:aliceblue;
+            background-color: lightcoral;
+            color: aliceblue;
         }
     </style>
 }
@@ -46,18 +49,23 @@
 </div>
 
 <div class="row" style="min-height:150px;">
-    
+
 </div>
 
-    <div class="row ticketform">
-        <div class="col-lg-push-4 ">
+<div class="row ticketform">
+    <div class="col-lg-push-4 ">
+        @using (Ajax.BeginForm("LoadPartialView", "Ticket", new AjaxOptions { UpdateTargetId = "loadtickets" }))
+        {
+
+
+
             <form class="form-inline" style="margin:15px">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Phone Number">
+                    <input type="text" class="form-control" placeholder="Phone Number" name="phone">
                 </div>
                 <div class="form-group">
 
-                    <input type="text" class="form-control" placeholder="Bus Station">
+                    <input type="text" class="form-control" placeholder="Bus Station" name="station">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Destination">
@@ -67,14 +75,15 @@
                 </div>
                 <button type="submit" class="btn myticketformbtn">Search Ticket</button>
             </form>
-        </div>
+        }
     </div>
+</div>
 
 
 
 
 <div class="row">
-    <div class=" ticketloader">
+    <div class=" ticketloader" id="loadtickets">
 
     </div>
 </div>
