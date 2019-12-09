@@ -35,10 +35,16 @@
                 border-radius: 8px;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             }
+            .buttonrow {
+                border-radius: 8px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                background-color: pink;
+                margin-bottom:15px;
+            }
 
-            .myticketformbtn {
-                background-color: lightcoral;
-                color: aliceblue;
+
+            .flabel {
+                color:pink;
             }
         </style>
 
@@ -49,7 +55,7 @@
             <p><h4>You can view and modify your Services Here</h4> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>
         </div>
         <div>
-            <div class="row" style="background-color:pink;">
+            <div class="row buttonrow" >
                 <div class="col-lg-1 col-md-3" style="margin-left:15px;">
                     @using (Ajax.BeginForm("LoadPartialView", "Terminal", new AjaxOptions { UpdateTargetId = "loader" }))
                     {

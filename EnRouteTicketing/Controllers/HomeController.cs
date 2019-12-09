@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnRouteTicketing.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,12 @@ namespace EnRouteTicketing.Controllers
 {
     public class HomeController : Controller
     {
+        EnRouteTicketingContext db = new EnRouteTicketingContext();
+
         public ActionResult Index()
         {
+            var terminallist = (from t in db.Terminals select t.Location).Distinct();
+            ViewData["locationname"] = new SelectList(terminallist);
             return View();
         }
 
