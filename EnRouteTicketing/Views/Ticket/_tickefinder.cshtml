@@ -1,0 +1,75 @@
+﻿@model IEnumerable<EnRouteTicketing.Models.Ticket>
+
+
+<table class="table">
+    <tr style="  background-color: lavender;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-top: 8px;">
+        <th>
+            @Html.Label("BusService")
+        </th>
+        <th>
+            @Html.Label("From")
+        </th>
+        <th>
+            @Html.Label("To")
+        </th>
+        <th>
+            @Html.Label("Bus")
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TravelDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr style="  background-color:lightblue;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-top: 25px;">
+        <td>
+            @Html.DisplayFor(modelItem => item.BusService.ServiceName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartTerminal.Location)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.ArriveTerminal.Location)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Bus.LicenseNo)
+        </td>
+               
+        <td>
+            @Html.DisplayFor(modelItem => item.TravelDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartureTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+
+        <td>
+            @Html.ActionLink("Buy", "Buy", new { busid = item.BusID, from = item.DepartTerminalID, dest = item.ArriveTerminalID, tdate = item.TravelDate, ttime = item.DepartureTime })
+
+        </td>
+
+    </tr>
+}
+
+</table>
+

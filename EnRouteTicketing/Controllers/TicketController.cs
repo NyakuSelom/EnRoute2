@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace EnRouteTicketing.Controllers
 {
@@ -32,9 +34,47 @@ namespace EnRouteTicketing.Controllers
         }
 
         // GET: Ticket
-        public ActionResult Index()
+        public ActionResult TicketFinder(string phone, string Location, string Destination, string TravelDate)
         {
-            return View();
+
+            if (TravelDate == "") { 
+
+                int tryid = 1;
+                var tryq = from t in db.Tickets where t.DepartTerminalID == tryid select new { t.BusID, t.BusServiceID, t.DepartTerminalID, t.ArriveTerminalID, t.Price, t.TravelDate, t.DepartureTime };
+                var fromID = (from t in db.Terminals where t.Location == Location select t.TerminalID).ToList();
+                var toID = (from t in db.Terminals where t.Location == Destination select t.TerminalID).ToList();
+                
+                List<Ticket> availabletickets = new List<Ticket>();
+                foreach (var sta in fromID)
+                {
+                    foreach (var des in toID)
+                    {
+                        //var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.Status == false select t).FirstOrDefault();
+                        //if (ticketgroup != null)
+                        //{
+                        //    availabletickets.Add(ticketgroup);
+                        //}
+
+                        var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.Status == false select t).ToList();
+                        var avlist = (ticketgroup.GroupBy(t =>new { t.TravelDate,t.BusID}).Select(t => t.OrderByDescending(b => b.DepartureTime).FirstOrDefault())).ToList();
+                        if (ticketgroup != null)
+                        {
+                            foreach (var item in avlist)
+                            {
+                                availabletickets.Add(item);
+                            }
+                           
+                        }
+                    }
+                }
+
+               
+
+               // return PartialView("_testPartial");
+
+                return PartialView("_tickefinder", availabletickets);
+            }
+            return PartialView("_testPartial");
         }
 
         // GET: Ticket/Details/5

@@ -29,8 +29,13 @@
                     @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                     @if (this.User.IsInRole("BusService"))
                     {
-                        <li>@Html.ActionLink("My Profile", "Index", "BusService")</li>
+                        <li>@Html.ActionLink("Manage Service", "Index", "BusService")</li>
                     }
+                    @if (this.User.IsInRole("Commuter"))
+                    {
+                        <li>@Html.ActionLink("Manage Schedule", "Index", "BusService")</li>
+                    }
+
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

@@ -14,9 +14,17 @@ namespace EnRouteTicketing.Models
         public DbSet<Terminal> Terminals { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<Commuter> Commuters { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+           // Database.SetInitializer<EnRouteTicketingContext>(new DropCreateDatabaseIfModelChanges<EnRouteTicketingContext>());
+            //Database.SetInitializer<EnRouteTicketingContext>(null);
+            //base.OnModelCreating(modelBuilder);
         }
+
+       
     }
 }

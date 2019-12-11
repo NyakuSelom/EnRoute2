@@ -171,6 +171,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusController.cs" />
     <Compile Include="Controllers\BusServiceController.cs" />
+    <Compile Include="Controllers\CommuterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
@@ -180,6 +181,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BusService.cs" />
+    <Compile Include="Models\Commuter.cs" />
     <Compile Include="Models\EnrouteContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -258,6 +260,10 @@
     <Content Include="Views\Ticket\_generateTicket.cshtml" />
     <Content Include="Views\Bus\_buslist.cshtml" />
     <Content Include="Views\Terminal\_terminallist.cshtml" />
+    <Content Include="Views\Ticket\_testPartial.cshtml" />
+    <Content Include="Views\Ticket\_tickefinder.cshtml" />
+    <Content Include="Views\Commuter\CompleteRegistration.cshtml" />
+    <Content Include="Views\Commuter\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

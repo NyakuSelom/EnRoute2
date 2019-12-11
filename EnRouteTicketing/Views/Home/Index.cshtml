@@ -54,10 +54,12 @@
 
         .carousel-inner > .item > img {
             /*width: auto;*/
-            height:450px;
-            width:auto;
-            margin:auto;
+            height: 450px;
+            width: auto;
+            margin: auto;
+            border-radius: 8px;
         }
+       
 
     </style>
 }
@@ -112,12 +114,12 @@
 
     </div>
     <div class="col-md-4 ticketforminner ">
-        @using (Ajax.BeginForm("LoadPartialView", "Ticket", new AjaxOptions { UpdateTargetId = "loadtickets" }))
+        @using (Ajax.BeginForm("TicketFinder", "Ticket", new AjaxOptions { UpdateTargetId = "loadtickets" }))
         {
 
 
 
-            <form class="form-inline" style="margin:15px">
+         
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Phone Number" name="phone">
                 </div>
@@ -132,7 +134,7 @@
                     <input type="date" class="form-control" placeholder="TravelDate" name="TravelDate">
                 </div>
                 <button type="submit" class="btn myticketformbtn">Search Ticket</button>
-            </form>
+           
         }
     </div>
 </div>
