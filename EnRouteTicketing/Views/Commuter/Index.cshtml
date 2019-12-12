@@ -4,5 +4,124 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@section head{
+    <style type="text/css">
+        body {
+            background-image: url('../../Content/images/travel.jpg');
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .myjumb {
+            opacity: 0.8 !important;
+        }
+
+        .ticketform {
+            background-color: mintcream;
+            opacity: 0.9;
+            min-height: 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .infocard {
+            background-color: lavender;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .buttonrow {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            background-color: pink;
+            margin-bottom: 15px;
+        }
+
+
+        .flabel {
+            color: pink;
+        }
+    </style>
+
+}
+
+<div class="jumbotron myjumb">
+    <h1> @ViewBag.commuterName</h1> <small>Welcome to EnRoute </small>
+    <p><h4>You can view and modify your Services Here</h4> <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>
+</div>
+<div>
+    <div class="row buttonrow">
+        <div class="col-lg-1 col-md-3" style="margin-left:15px;">
+            @using (Ajax.BeginForm("LoadPartialView", "Terminal", new AjaxOptions { UpdateTargetId = "loader" }))
+            {
+                <button class="btn btn-success btn-md" type="submit">Add Terminal</button>
+
+
+            }
+        </div>
+
+        <div class="col-lg-1 col-md-3" style="margin-left:15px;">
+
+
+            @using (Ajax.BeginForm("LoadPartialView", "Bus", new AjaxOptions { UpdateTargetId = "loader" }))
+            {
+                <button class="btn btn-danger btn-md" type="submit">Add Bus</button>
+
+
+            }
+        </div>
+
+        <div class="col-lg-1 col-md-3" style="margin-left:15px;">
+
+
+            @using (Ajax.BeginForm("LoadPartialView", "Ticket", new AjaxOptions { UpdateTargetId = "loader" }))
+            {
+                <button class="btn btn-success btn-md" type="submit">Generate Tickets</button>
+
+
+            }
+        </div>
+
+    </div>
+
+
+
+    <div id="loader" class="margin-bottom-5">
+        @*@Html.Action("LoadPartialView", "Terminal")*@
+    </div>
+
+
+    <div class="panel panel-default  col-md-6">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Terminals</div>
+
+        <!-- Table -->
+        @Html.Action("TerminalList", "Terminal")
+    </div>
+
+    <div class="panel panel-default  col-md-6">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Busses</div>
+
+        <!-- Table -->
+        @Html.Action("BusList", "Bus")
+    </div>
+</div>
+
+@*@Html.Partial((string)ViewBag.myPartial)*@
+
+
+<script type="text/javascript">
+
+
+
+</script>
+
+
+
 
