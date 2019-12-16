@@ -265,6 +265,7 @@
     <Content Include="Views\Commuter\CompleteRegistration.cshtml" />
     <Content Include="Views\Commuter\Index.cshtml" />
     <Content Include="Views\Ticket\Buy.cshtml" />
+    <Content Include="Views\Commuter\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

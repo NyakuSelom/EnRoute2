@@ -1,4 +1,5 @@
 ﻿using EnRouteTicketing.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,20 @@ namespace EnRouteTicketing.Controllers
         {
             var terminallist = (from t in db.Terminals select t.Location).Distinct();
             ViewData["locationname"] = new SelectList(terminallist);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Commuter"))
+                {
+                    string email = User.Identity.GetUserName();
+                    var record = db.Commuters.FirstOrDefault(x => x.Email == email);
+
+                    if (record != null)
+                    {
+                        ViewBag.phone = record.PhoneNumber;
+                    }
+                }
+            }
             return View();
         }
 

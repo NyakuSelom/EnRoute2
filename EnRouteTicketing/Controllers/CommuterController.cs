@@ -16,7 +16,33 @@ namespace EnRouteTicketing.Controllers
         // GET: Commuter
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = User.Identity.GetUserName();
+                ViewBag.mail = email;
+                //  var id = from s in db.BusServices where s.Email == email select s.BusServiceID
+
+
+
+                var record = db.Commuters.FirstOrDefault(x => x.Email == email);
+                if (record != null)
+                {
+                    ViewBag.commuterName = record.UserName;
+                    ViewBag.contactNo = record.PhoneNumber;
+
+                    //List<Terminal> terms = db.Terminals.Where(t => t.BusServiceID == record.BusServiceID).ToList();
+                    //ViewBag.terminallist = new SelectList(terms, "TerminalID", "TerminalName");
+                    //var terminallist = from t in db.Terminals where t.BusServiceID == record.BusServiceID select t;
+                    //ViewData["terminalname"] = new SelectList(terminallist, "TerminalID", "TerminalName");
+
+
+
+                    //return PartialView("../Bus/_addBus");
+                    return View();
+                }
+
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Commuter/Details/5
@@ -63,7 +89,7 @@ namespace EnRouteTicketing.Controllers
 
                 
 
-                    return RedirectToAction("Commuter", "Index");
+                    return RedirectToAction("Index", "Commuter");
 
             }
 
@@ -97,10 +123,29 @@ namespace EnRouteTicketing.Controllers
             }
         }
 
-        // GET: Commuter/Delete/5
-        public ActionResult Delete(int id)
+        
+        public ActionResult  Schedule()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = User.Identity.GetUserName();
+                ViewBag.mail = email;
+                //  var id = from s in db.BusServices where s.Email == email select s.BusServiceID
+
+
+
+                var record = db.Commuters.FirstOrDefault(x => x.Email == email);
+                if (record != null)
+                {
+                   
+                   var contactNo = record.PhoneNumber;
+                    var model = (from t in db.Transactions where t.PhoneNumber == contactNo select t).ToList();
+                    return PartialView(model);
+                }
+
+            }
+
+          return PartialView();
         }
 
         // POST: Commuter/Delete/5

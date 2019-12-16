@@ -64,7 +64,7 @@
         </td>
 
         <td>
-            @Html.ActionLink("Buy", "Buy", new { busid = item.BusID, from = item.DepartTerminalID, dest = item.ArriveTerminalID, tdate = item.TravelDate, ttime = item.DepartureTime })
+            @Html.ActionLink("Buy", "Buy", new { busid = item.BusID, fromid = item.DepartTerminalID, dest = item.ArriveTerminalID, tdate = item.TravelDate, ttime = item.DepartureTime, phone = ViewBag.phone })
 
         </td>
 

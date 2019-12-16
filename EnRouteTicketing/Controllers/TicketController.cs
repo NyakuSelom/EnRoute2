@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-
+using System.Data.Entity.Core.Objects;
 
 namespace EnRouteTicketing.Controllers
 {
@@ -36,37 +36,74 @@ namespace EnRouteTicketing.Controllers
         // GET: Ticket
         public ActionResult TicketFinder(string phone, string Location, string Destination, string TravelDate)
         {
-
-            if (TravelDate == "") { 
+            ViewBag.phone = phone;
+            if (TravelDate == "") {
 
                 //int tryid = 1;
                 //var tryq = from t in db.Tickets where t.DepartTerminalID == tryid select new { t.BusID, t.BusServiceID, t.DepartTerminalID, t.ArriveTerminalID, t.Price, t.TravelDate, t.DepartureTime };
                 var fromID = (from t in db.Terminals where t.Location == Location select t.TerminalID).ToList();
                 var toID = (from t in db.Terminals where t.Location == Destination select t.TerminalID).ToList();
-                
+
                 List<Ticket> availabletickets = new List<Ticket>();
                 foreach (var sta in fromID)
                 {
                     foreach (var des in toID)
                     {
-                        
+
 
                         var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.Status == false select t).ToList();
-                        var avlist = (ticketgroup.GroupBy(t =>new { t.TravelDate,t.BusID}).Select(t => t.OrderByDescending(b => b.DepartureTime).FirstOrDefault())).ToList();
+                        var avlist = (ticketgroup.GroupBy(t => new { t.TravelDate, t.BusID }).Select(t => t.OrderByDescending(b => b.DepartureTime).FirstOrDefault())).ToList();
                         if (ticketgroup != null)
                         {
                             foreach (var item in avlist)
                             {
                                 availabletickets.Add(item);
                             }
-                           
+
                         }
                     }
                 }
 
-               
+                
 
-               // return PartialView("_testPartial");
+                // return PartialView("_testPartial");
+
+                return PartialView("_tickefinder", availabletickets);
+            }
+
+
+            else 
+            {
+
+                //int tryid = 1;
+                //var tryq = from t in db.Tickets where t.DepartTerminalID == tryid select new { t.BusID, t.BusServiceID, t.DepartTerminalID, t.ArriveTerminalID, t.Price, t.TravelDate, t.DepartureTime };
+                var fromID = (from t in db.Terminals where t.Location == Location select t.TerminalID).ToList();
+                var toID = (from t in db.Terminals where t.Location == Destination select t.TerminalID).ToList();
+
+                List<Ticket> availabletickets = new List<Ticket>();
+                foreach (var sta in fromID)
+                {
+                    foreach (var des in toID)
+                    {
+                        DateTime tdate = DateTime.Parse(TravelDate);
+                        //EntityFunctions.TruncateTime(t.TravelDate) == TravelDate.ToDateTime()
+
+                        var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.TravelDate == tdate && t.Status == false select t).ToList();
+                        var avlist = (ticketgroup.GroupBy(t => new { t.TravelDate, t.BusID }).Select(t => t.OrderByDescending(b => b.DepartureTime).FirstOrDefault())).ToList();
+                        if (ticketgroup != null)
+                        {
+                            foreach (var item in avlist)
+                            {
+                                availabletickets.Add(item);
+                            }
+
+                        }
+                    }
+                }
+
+
+
+                // return PartialView("_testPartial");
 
                 return PartialView("_tickefinder", availabletickets);
             }
@@ -74,11 +111,57 @@ namespace EnRouteTicketing.Controllers
         }
 
         // GET: Ticket/Details/5
-        public ActionResult Buy(int id)
+        public ActionResult Buy(int busid, int fromid, int dest, DateTime tdate, DateTime ttime, string phone)
         {
-            return View();
+
+            var model = (from t in db.Tickets where t.BusID == busid && t.DepartTerminalID == fromid && t.ArriveTerminalID == dest && t.TravelDate == tdate && t.DepartureTime == ttime select t).FirstOrDefault();
+
+            var relticketlist = from t in db.Tickets where t.BusID == busid && t.DepartTerminalID == fromid && t.ArriveTerminalID == dest && t.TravelDate == tdate && t.DepartureTime == ttime && t.Status == false select t;
+            ViewData["SelectedTicket"] = new SelectList(relticketlist, "TicketID", "SeatNo");
+
+            ViewBag.phone = phone;
+
+            return View(model);
         }
 
+
+        [HttpPost]
+        public ActionResult Buy(string phone, string ticketid)
+        {
+            //return Content(phone+" "+SeatNumber);
+           int tid = Convert.ToInt32(ticketid);
+
+
+            if (User.IsInRole("Commuter"))
+            {
+                Transaction tr = new Transaction
+                {
+                    PhoneNumber = phone,
+                    TicketID = tid,
+                    status = true,
+                    TransactionDate = DateTime.Now
+                };
+                db.Transactions.Add(tr);
+                db.SaveChanges();
+
+
+
+                var result = db.Tickets.SingleOrDefault(t => t.TicketID == tid);
+                if (result != null)
+                {
+                    result.Status = true;
+                    db.SaveChanges();
+                }
+
+
+            
+                return RedirectToAction("Index", "Commuter");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
         // GET: Ticket/Create
         public ActionResult Create()
         {

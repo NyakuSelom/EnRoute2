@@ -1,0 +1,94 @@
+﻿@model IEnumerable<EnRouteTicketing.Models.Transaction>
+
+
+<table class="table">
+    <tr style="  background-color: lightseagreen;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-top: 8px;">
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.TicketNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.DepartTerminal.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.ArriveTerminal.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.SeatNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.BusService.ServiceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th></th>
+    </tr>
+    <tr >
+        <td heigth="20px;"></td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        
+            ViewBag.status = (item.status);
+            ViewBag.date = (item.TransactionDate);
+        
+        <tr style="  background-color: lightyellow;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-top: 8px;">
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.TicketNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.DepartTerminal.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.ArriveTerminal.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.SeatNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.BusService.ServiceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.TravelDate)
+            </td>
+
+          
+            @if (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) > 0))
+            {
+                <td>
+                    Trip Pending
+                </td>
+            }
+            else if (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) < 0))
+            {
+                <td>
+                    Ticket Expired
+                </td>
+            }
+            else
+            {
+                <td>
+                    Cancelled
+                </td>
+            }
+
+
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.TransactionID }) |
+                @Html.ActionLink("Cancel", "Delete", new { id = item.TransactionID })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EnRouteTicketing.Models.Ticket>
+﻿@model EnRouteTicketing.Models.Ticket
 
 @{
     ViewBag.Title = "Buy";
@@ -6,82 +6,91 @@
 
 <h2>Buy</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ArriveTerminal.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Bus.LicenseNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BusService.ServiceName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepartTerminal.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SeatNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TravelDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepartureTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
 
-@foreach (var item in Model) {
-    <tr>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.ArriveTerminal.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bus.LicenseNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusService.ServiceName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartTerminal.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketNumber)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.SeatNo)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.TravelDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartureTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>*@
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TicketID }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.TicketID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TicketID })*@
-        </td>
-    </tr>
+        <dt>
+            @Html.Label("From")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartTerminal.Location)
+        </dd>
+
+        <dt>
+            @Html.Label("Destination")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArriveTerminal.Location)
+        </dd>
+
+        <dt>
+            @Html.Label("Bus")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bus.LicenseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusService.ServiceName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusService.ServiceName)
+        </dd>
+
+
+
+        <dt>
+            @Html.Label("Travel Date")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TravelDate)
+        </dd>
+
+        <dt>
+            @Html.Label("Departure Time");
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartureTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+
+
+    </dl>
+</div>
+
+@using (Html.BeginForm("Buy", "Ticket", FormMethod.Post))
+{
+    <div class="form-group">
+        <span class="flabel">
+            @Html.Label("Select Your Prefared Seat Number")
+        </span>
+        <input type="hidden" name="phone"  value="@ViewBag.phone">
+        <div class="col-md-10">
+            @Html.DropDownList("ticketid", (SelectList)ViewData["SelectedTicket"], "Select Seat No", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Buy Now." class="btn btn-success" />
+        </div>
+    </div>
 }
 
-</table>
+
+
