@@ -10,7 +10,7 @@ namespace EnRouteTicketing.Controllers
 {
     public class HomeController : Controller
     {
-        EnRouteTicketingContext db = new EnRouteTicketingContext();
+        EnRouteAppContext db = new EnRouteAppContext();
 
         public ActionResult Index()
         {

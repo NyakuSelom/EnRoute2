@@ -11,7 +11,7 @@ namespace EnrouteBusTicketing.Controllers
 {
     public class TerminalController : Controller
     {
-        EnRouteTicketingContext db = new EnRouteTicketingContext();
+        EnRouteAppContext db = new EnRouteAppContext();
 
 
         public ActionResult LoadPartialView()

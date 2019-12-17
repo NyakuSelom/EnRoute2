@@ -12,7 +12,7 @@ namespace EnRouteTicketing.Controllers
 {
     public class BusController : Controller
     {
-        EnRouteTicketingContext db = new EnRouteTicketingContext();
+        EnRouteAppContext db = new EnRouteAppContext();
 
         public ActionResult LoadPartialView()
         {

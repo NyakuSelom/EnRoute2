@@ -10,10 +10,10 @@
             @Html.DisplayNameFor(model => model.Ticket.TicketNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.DepartTerminal.Location)
+           From
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.ArriveTerminal.Location)
+            To
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Ticket.SeatNo)
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.Ticket.BusService.ServiceName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TransactionDate)
+           Travel Date
         </th>
         <th>
             @Html.DisplayNameFor(model => model.status)
@@ -32,63 +32,85 @@
     <tr >
         <td heigth="20px;"></td>
     </tr>
-
+    @using EnRouteTicketing.Models
     @foreach (var item in Model)
     {
-        
-            ViewBag.status = (item.status);
-            ViewBag.date = (item.TransactionDate);
-        
-        <tr style="  background-color: lightyellow;
+
+        EnRouteAppContext db = new EnRouteAppContext();
+        var ticketid = (item.TicketID);
+        ViewBag.status = (item.status);
+        DateTime date = (item.TransactionDate);
+        // ViewBag.ticketno = (item.Ticket.TicketNumber);
+
+        var ticket= (from t in db.Tickets where t.TicketID == ticketid select t).FirstOrDefault();
+
+
+
+    <tr style="  background-color: lightyellow;
             border-radius: 8px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            margin-top: 8px;">
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.TicketNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.DepartTerminal.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.ArriveTerminal.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.SeatNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.BusService.ServiceName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ticket.TravelDate)
-            </td>
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin-top: 8px;">
+        <td>
+            @ticket.TicketNumber
 
-          
-            @if (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) > 0))
-            {
-                <td>
-                    Trip Pending
-                </td>
-            }
-            else if (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) < 0))
-            {
-                <td>
-                    Ticket Expired
-                </td>
-            }
-            else
-            {
-                <td>
-                    Cancelled
-                </td>
-            }
+        </td>
+        <td>
+            @ticket.DepartTerminal.Location
+        </td>
+        <td>
+            @ticket.ArriveTerminal.Location
+        </td>
+        <td>
+            @ticket.SeatNo
+        </td>
+        <td>
+            @ticket.BusService.ServiceName
+        </td>
+        <td>
+            @ticket.TravelDate.ToString("dd-MM-yyyy")
+        </td>
 
 
+        @if (ViewBag.status == true && ((DateTime.Compare(date, DateTime.Now)) > 0))       // (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) < 0))
+        {
             <td>
-
-                @Html.ActionLink("Details", "Details", new { id = item.TransactionID }) |
-                @Html.ActionLink("Cancel", "Delete", new { id = item.TransactionID })
+                Trip Pending
             </td>
-        </tr>
+        }
+        //else if (ViewBag.status == true && (DateTime.Compare(ViewBag.date, DateTime.Now) < 0))
+        else if (ViewBag.status == false)
+        {
+            <td>
+                Trip Cancelled
+            </td>
+        }
+        else
+        {
+            <td>
+                Ticket Expired
+            </td>
+        }
+
+        @if (ViewBag.status == true && (DateTime.Compare(date, DateTime.Now) > 0))
+        {
+            <td>
+                @Html.ActionLink("Cancel", "Cancel", new { id = ticket.TicketID })|
+                @Html.ActionLink("Review", "Review", new { id = ticket.TicketID })
+            </td>
+        }
+        else if (ViewBag.status == true && (DateTime.Compare(date, DateTime.Now) < 0))
+        {
+            <td>
+            @Html.ActionLink("Review", "Review", new { id = ticket.TicketID })
+            </td>
+        }
+        else
+        {
+            <td style=" color:slategrey;">
+               Cant Review!
+            </td>
+        }
+    </tr>
     }
-
+    
 </table>

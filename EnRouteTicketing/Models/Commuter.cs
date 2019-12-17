@@ -40,4 +40,25 @@ namespace EnRouteTicketing.Models
 
         public Ticket Ticket{get; set;}
     }
+
+    public class Review
+    {
+        [Key]
+        public int ReviewID { get; set; }
+
+        [Required]
+        public int TicketID { get; set; }
+
+        [Required]
+        public int CommuterID { get; set; }
+
+        public string ReviewMessage { get; set; }
+
+        public int Rating { get; set; }
+
+        public Ticket Ticket { get; set; }
+
+        public Commuter Commuter { get; set; }
+               
+    }
 }

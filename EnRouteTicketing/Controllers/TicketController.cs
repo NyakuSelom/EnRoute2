@@ -12,7 +12,7 @@ namespace EnRouteTicketing.Controllers
 {
     public class TicketController : Controller
     {
-        EnRouteTicketingContext db = new EnRouteTicketingContext();
+        EnRouteAppContext db = new EnRouteAppContext();
 
         public ActionResult LoadPartialView()
         {
@@ -51,7 +51,7 @@ namespace EnRouteTicketing.Controllers
                     {
 
 
-                        var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.Status == false select t).ToList();
+                        var ticketgroup = (from t in db.Tickets where t.DepartTerminalID == sta && t.ArriveTerminalID == des && t.Status == false && DateTime.Compare(t.TravelDate, DateTime.Now)>0 select t).ToList();
                         var avlist = (ticketgroup.GroupBy(t => new { t.TravelDate, t.BusID }).Select(t => t.OrderByDescending(b => b.DepartureTime).FirstOrDefault())).ToList();
                         if (ticketgroup != null)
                         {
@@ -151,6 +151,12 @@ namespace EnRouteTicketing.Controllers
                 {
                     result.Status = true;
                     db.SaveChanges();
+
+                    Sms newsms = new Sms();
+                    string tdate = result.TravelDate.ToString("DD-MM-yyyy");
+                    
+                    string message = $"Dear {phone} you have succesfully purchased a ticket to {result.ArriveTerminal.Location} from {result.DepartTerminal.Location} you traveling with {result.BusService.ServiceName} bus number {result.Bus.LicenseNo} on {tdate} at {result.DepartureTime} your seat number is {result.SeatNo}";
+                    newsms.SendSms(phone, message);
                 }
 
 
@@ -158,8 +164,49 @@ namespace EnRouteTicketing.Controllers
                 return RedirectToAction("Index", "Commuter");
             }
             else
-            {
-                return RedirectToAction("Index", "Home");
+            { 
+                    Transaction tr = new Transaction
+                    {
+                        PhoneNumber = phone,
+                        TicketID = tid,
+                        status = true,
+                        TransactionDate = DateTime.Now
+                    };
+                    db.Transactions.Add(tr);
+                    db.SaveChanges();
+
+
+
+                    var result = db.Tickets.SingleOrDefault(t => t.TicketID == tid);
+                if (result != null)
+                {
+
+
+                    string email = User.Identity.GetUserName();
+                    ViewBag.mail = email;
+
+
+
+
+                    var record = db.Commuters.FirstOrDefault(x => x.Email == email);
+                    if (record != null)
+                    {
+                        var commuterName = record.UserName;
+                        
+
+
+                        result.Status = true;
+                        db.SaveChanges();
+
+                        Sms newsms = new Sms();
+                        string tdate = result.TravelDate.ToString("DD-MM-yyyy");
+
+                        string message = $"Dear {commuterName} you have succesfully purchased a ticket to {result.ArriveTerminal.Location} from {result.DepartTerminal.Location} you traveling with {result.BusService.ServiceName} bus number {result.Bus.LicenseNo} on {tdate} at {result.DepartureTime} your seat number is {result.SeatNo}";
+                        newsms.SendSms(phone, message);
+                    }
+
+                }
+                    return RedirectToAction("Index", "Home");
             }
         }
         // GET: Ticket/Create

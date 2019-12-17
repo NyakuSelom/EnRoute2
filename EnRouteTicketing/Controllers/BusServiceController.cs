@@ -12,7 +12,7 @@ namespace EnRouteTicketing.Controllers
     public class BusServiceController : Controller
     {
 
-        EnRouteTicketingContext db = new EnRouteTicketingContext();
+        EnRouteAppContext db = new EnRouteAppContext();
         // GET: BusService
         public ActionResult Index()
         {

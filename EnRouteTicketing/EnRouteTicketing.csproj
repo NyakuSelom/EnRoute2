@@ -174,6 +174,7 @@
     <Compile Include="Controllers\CommuterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,6 +186,7 @@
     <Compile Include="Models\EnrouteContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Sms.cs" />
     <Compile Include="Models\Terminal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -266,9 +268,11 @@
     <Content Include="Views\Commuter\Index.cshtml" />
     <Content Include="Views\Ticket\Buy.cshtml" />
     <Content Include="Views\Commuter\Schedule.cshtml" />
+    <Content Include="Views\Commuter\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Review\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

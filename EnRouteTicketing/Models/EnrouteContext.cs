@@ -7,7 +7,7 @@ using System.Web;
 
 namespace EnRouteTicketing.Models
 {
-    public class EnRouteTicketingContext : DbContext
+    public class EnRouteAppContext : DbContext
     {
         public DbSet<BusService> BusServices { get; set; }
         public DbSet<Bus> Buses { get; set; }
@@ -16,6 +16,8 @@ namespace EnRouteTicketing.Models
 
         public DbSet<Commuter> Commuters { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
